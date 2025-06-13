@@ -1,6 +1,9 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+/*  */
+
 import { iMenuItem } from '@interfaces/index';
+import { AppAuthService } from '@services/index';
 @Component({
   selector: 'public-layout-navbar',
   imports: [RouterLink, RouterLinkActive],
@@ -27,7 +30,8 @@ import { iMenuItem } from '@interfaces/index';
           </li>
           }
           <li>
-            <button class="link link-hover link-primary">
+            <button class="link link-hover link-primary"
+            (click)="authService.login()">
               <i class="fas fa-sign-out-alt"></i>
               Login
             </button>
@@ -38,6 +42,7 @@ import { iMenuItem } from '@interfaces/index';
   `,
 })
 export class PublicLayoutNavbar {
+  authService: AppAuthService = inject(AppAuthService);
   public menuItems = computed((): iMenuItem[] => [
     {
       title: 'Home',
