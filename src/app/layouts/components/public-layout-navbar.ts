@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 /*  */
@@ -6,7 +7,7 @@ import { iMenuItem } from '@interfaces/index';
 import { AppAuthService } from '@services/index';
 @Component({
   selector: 'public-layout-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive,AsyncPipe],
   template: `
     <div class="navbar bg-base-200 shadow-sm">
       <div class="flex-1">
@@ -29,6 +30,15 @@ import { AppAuthService } from '@services/index';
             </a>
           </li>
           }
+          @if(authService.isAuthenticated$ | async){
+           <li>
+             <a class="link link-hover link-success" routerLink="/private">
+               <i class="fas fa-tachometer-alt"></i>
+              Dashboard
+            </a>
+           </li>
+          }<!--  -->
+          @else {
           <li>
             <button class="link link-hover link-primary"
             (click)="authService.login()">
@@ -36,6 +46,7 @@ import { AppAuthService } from '@services/index';
               Login
             </button>
           </li>
+          }
         </ul>
       </div>
     </div>

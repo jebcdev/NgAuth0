@@ -1,6 +1,7 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { iMenuItem } from '@interfaces/index';
+import { AppAuthService } from '@services/app-auth.service';
 
 @Component({
   selector: 'private-layout-navbar',
@@ -29,7 +30,8 @@ import { iMenuItem } from '@interfaces/index';
           }
           
           <li>
-            <button class="link link-hover link-primary">
+            <button class="link link-hover link-primary"
+            (click)="authService.logout()">
               <i class="fas fa-sign-out-alt"></i>
               Logout
             </button>
@@ -40,6 +42,8 @@ import { iMenuItem } from '@interfaces/index';
   `,
 })
 export class PrivateLayoutNavbar {
+    authService: AppAuthService = inject(AppAuthService);
+
   public menuItems = computed((): iMenuItem[] => [
     {
       title: 'Dashboard',

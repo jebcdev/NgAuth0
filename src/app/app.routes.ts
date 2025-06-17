@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { isAuthenticatedGuard } from '@guards/is-authenticated-guard';
 export const routes: Routes = [
   {
     title: 'Ng Auth 0',
@@ -6,6 +7,7 @@ export const routes: Routes = [
     loadChildren: () => import('@routes/public.routes'),
   },
   {
+    canMatch:[isAuthenticatedGuard],
     title: 'Private',
     path: 'private',
     loadChildren: () => import('@routes/private.routes'),

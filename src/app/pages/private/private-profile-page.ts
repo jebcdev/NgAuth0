@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AppAuthService } from '@services/app-auth.service';
 
 @Component({
   selector: 'private-profile-page',
-  imports: [],
+  imports: [AsyncPipe],
   template: `
     <div class="min-h-screen">
       <div class="container mx-auto px-4 py-8">
@@ -11,7 +13,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           <h1 class="text-3xl font-bold">Perfil de Usuario</h1>
           <p class="text-lg opacity-80">Información del usuario autenticado</p>
         </div>
-
+@if(authService.user$ | async; as user) {
         <!-- Profile Card -->
         <div class="card bg-base-200">
           <div class="card-body">
@@ -25,7 +27,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
                 <input
                   type="text"
                   class="input input-bordered"
-                  value="Usuario Demo"
+                  [value]=" user?.name "
                   readonly
                 />
               </div>
@@ -39,7 +41,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
                 <input
                   type="email"
                   class="input input-bordered"
-                  value="user&#64;example.com"
+                  [value]="user.email"
                   readonly
                 />
               </div>
@@ -71,13 +73,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrivateProfilePage {}
+export class PrivateProfilePage {
+      authService: AppAuthService = inject(AppAuthService);
+
+}
 
 export default PrivateProfilePage;
